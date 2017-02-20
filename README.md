@@ -4,7 +4,7 @@ A survey of minimal pair counts in a range of languages
 ![Graphs of minimal pair counts](https://github.com/kaplanas/Minimal-Pair-Counts/blob/master/nonzero_model_illustration.png)
 
 ## Authors
-+ Abby Kaplan (https://github.com/kaplanas)
++ Abby Kaplan ([kaplanas](https://github.com/kaplanas))
 + Hope Morgan
 
 ## About
