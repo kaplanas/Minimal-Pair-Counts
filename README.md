@@ -29,6 +29,14 @@ We have collected wordlists from the following databases:
 
 For more detail, see [this](https://github.com/kaplanas/Minimal-Pair-Counts/blob/master/minimal_pair_counts.pdf).
 
+## Dependencies
++ Python
+  + `bs4`
++ R
+  + `lme4`
+  + `lmerTest`
+  + `stringr`
+
 ## Sample Code
 The code samples here illustrate how the data was cleaned and analyzed, *for the Tower of Babel data only*.  To replicate the procedure, do the following:
 
