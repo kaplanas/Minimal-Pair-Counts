@@ -3,6 +3,10 @@ A survey of minimal pair counts in a range of languages
 
 ![Graphs of minimal pair counts](https://github.com/kaplanas/Minimal-Pair-Counts/blob/master/nonzero_model_illustration.png)
 
+## Authors
++ Abby Kaplan (https://github.com/kaplanas)
++ Hope Morgan
+
 ## About
 This is an ongoing project that surveys the number of minimal pairs in languages with varying levels of documentation.  The basic idea is to predict the number of minimal pairs observed in a given language from the following factors:
 
