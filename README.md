@@ -46,10 +46,10 @@ The code samples here illustrate how the data was cleaned and analyzed, *for the
 + Clean and transform the Tower of Babel data in R.
   1. Run `load_starling.R`.  
      This will load the raw data and strip out a few unwanted characters.
-  2. Run `load_segs_starling.R`.  
-     This will identify and normalize the unique segments that occur in each language.
-  3. Run `remove_homs_starling.R`.  
+  2. Run `remove_homs_starling.R`.  
      This will remove homophones within each language.
+  3. Run `load_segs_starling.R`.  
+     This will identify and normalize the unique segments that occur in each language.
   4. Run `load_min_pairs_starling.R`.  
      This will identify all the minimal pairs within each language.
 + Analyze and plot the data in R.
