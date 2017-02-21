@@ -7,16 +7,6 @@ ksl.log.minpairs = log(ksl.minpairs)
 ksl.vocab = 1690
 ksl.log.vocab = log(ksl.vocab)
 
-# plotting symbols, colors, etc.
-all.parameters = data.frame(
-  PrettyName = c("CHIRILA", "POLLEX", "Tower of Babel", "CELEX+", "KSL"),
-  Symbol = c(1, 3, 46, 2, 19),
-  Color = c("darkgray", "darkgray", "lightgray", "lightgray", "red"),
-  LineType = c(1, 2, 1, NA, NA),
-  row.names = c("chirila", "pollex", "starling", "celex", "ksl"),
-  stringsAsFactors = F
-)
-
 # an initial regression to get residuals for mitigating collinearity involving
 # segment inventory size
 starling.seg.lm = lm(NumSegs ~ LogVocab + MeanWordLength, data = starling.min.pair.counts)
@@ -53,7 +43,7 @@ dev.off()
 # MODEL FOR LANGUAGES WITH AT LEAST SOME MINIMAL PAIRS #
 
 # build the model
-nonzero.model = lmer(CS.LogMinPairs ~ CS.LogVocab + CS.MeanWordLength + CS.NumSegsResid, data = nonzero.min.pair.counts)
+nonzero.model = lm(CS.LogMinPairs ~ CS.LogVocab + CS.MeanWordLength + CS.NumSegsResid, data = nonzero.min.pair.counts)
 
 # set up output device
 pdf("nonzero_model.pdf", height = 3, width = 8)
@@ -63,22 +53,19 @@ par(mfrow = c(1, 3), mar = c(4.5, 4, 1, 1))
 plot(nonzero.min.pair.counts$LogMinPairs ~ nonzero.min.pair.counts$LogVocab, xlim = range(nonzero.min.pair.counts$LogVocab), xlab = "Log vocabulary size", ylim = range(nonzero.min.pair.counts$LogMinPairs), ylab = "Log minimal pairs", main = "Log vocabulary size", col = all.parameters["starling","Color"], pch = all.parameters["starling","Symbol"])
 
 # add curves for minimal pairs by vocab
-curve(((cbind(1, (x - mean.log.vocab) / sd.log.vocab, mean(starling.min.pair.counts$CS.MeanWordLength), mean(starling.min.pair.counts$CS.NumSegs)) %*% unlist(coef(nonzero.model.final))) * sd.log.min.pairs) + mean.log.min.pairs, add = T, col = all.parameters["starling","Color"], lty = all.parameters["starling","LineType"])
-rm(database)
+curve(((cbind(1, (x - mean.log.vocab) / sd.log.vocab, mean(starling.min.pair.counts$CS.MeanWordLength), mean(starling.min.pair.counts$CS.NumSegs)) %*% unlist(coef(nonzero.model))) * sd.log.min.pairs) + mean.log.min.pairs, add = T, col = all.parameters["starling","Color"], lty = all.parameters["starling","LineType"])
 points(ksl.log.minpairs ~ ksl.log.vocab, col = all.parameters["ksl","Color"], pch = all.parameters["ksl","Symbol"])
 
 # add data points for minimal pairs by word length
-plot(nonzero.min.pair.counts$LogMinPairs ~ nonzero.min.pair.counts$MeanWordLength, xlim = range(nonzero.min.pair.counts$MeanWordLength), xlab = "Mean word length", ylim = range(nonzero.min.pair.counts$LogMinPairs), ylab = "Log minimal pairs", main = "Mean word length", col = all.parameters[nonzero.min.pair.counts$Database,"Color"], pch = all.parameters[nonzero.min.pair.counts$Database,"Symbol"])
+plot(nonzero.min.pair.counts$LogMinPairs ~ nonzero.min.pair.counts$MeanWordLength, xlim = range(nonzero.min.pair.counts$MeanWordLength), xlab = "Mean word length", ylim = range(nonzero.min.pair.counts$LogMinPairs), ylab = "Log minimal pairs", main = "Mean word length", col = all.parameters["starling","Color"], pch = all.parameters["starling","Symbol"])
 
 # add curves for minimal pairs by word length
-curve(((cbind(1, mean(nonzero.min.pair.counts$CS.LogVocab[nonzero.min.pair.counts$Database == database]), (x - mean.word.length) / sd.word.length, mean(nonzero.min.pair.counts$CS.NumSegs)) %*% unlist(coef(nonzero.model.final))) * sd.log.min.pairs) + mean.log.min.pairs, add = T, col = all.parameters["starling","Color"], lty = all.parameters["starling","LineType"])
-rm(database)
+curve(((cbind(1, mean(nonzero.min.pair.counts$CS.LogVocab), (x - mean.word.length) / sd.word.length, mean(nonzero.min.pair.counts$CS.NumSegs)) %*% unlist(coef(nonzero.model))) * sd.log.min.pairs) + mean.log.min.pairs, add = T, col = all.parameters["starling","Color"], lty = all.parameters["starling","LineType"])
 
 # add data points for minimal pairs by segment inventory size
 plot(nonzero.min.pair.counts$LogMinPairs ~ nonzero.min.pair.counts$NumSegsResid, xlim = range(nonzero.min.pair.counts$NumSegsResid), xlab = "Residualized segment inventory size", ylim = range(nonzero.min.pair.counts$LogMinPairs), ylab = "Log minimal pairs", main = "Segment inventory size", col = all.parameters["starling","Color"], pch = all.parameters["starling","Symbol"])
 
 # add curves for minimal pairs by segment inventory size
-curve(((cbind(1, mean(nonzero.min.pair.counts$CS.LogVocab), mean(nonzero.min.pair.counts$CS.MeanWordLength), (x - mean.num.segs.resid) / sd.num.segs.resid) %*% unlist(coef(nonzero.model.final))) * sd.log.min.pairs) + mean.log.min.pairs, add = T, col = all.parameters["starling","Color"], lty = all.parameters["starling","LineType"])
-rm(database)
+curve(((cbind(1, mean(nonzero.min.pair.counts$CS.LogVocab), mean(nonzero.min.pair.counts$CS.MeanWordLength), (x - mean.num.segs.resid) / sd.num.segs.resid) %*% unlist(coef(nonzero.model))) * sd.log.min.pairs) + mean.log.min.pairs, add = T, col = all.parameters["starling","Color"], lty = all.parameters["starling","LineType"])
 
 dev.off()
